@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.launchPad.web.mapper.TbProjectFeeDetailMapper">
+    
+    <resultMap type="TbProjectFeeDetail" id="TbProjectFeeDetailResult">
+        <result property="id"    column="id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="baseTokenFee"    column="base_token_fee"    />
+        <result property="saleTokenFee"    column="sale_token_fee"    />
+        <result property="referralFee"    column="referral_fee"    />
+        <result property="baseTokenFeeAddress"    column="base_token_fee_address"    />
+        <result property="saleTokenFeeAddress"    column="sale_token_fee_address"    />
+        <result property="referralFeeAddress"    column="referral_fee_address"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbProjectFeeDetailVo">
+        select id, project_id, base_token_fee, sale_token_fee, referral_fee, base_token_fee_address, sale_token_fee_address, referral_fee_address, create_time, update_time from tb_project_fee_detail
+    </sql>
+
+    <select id="selectTbProjectFeeDetailList" parameterType="TbProjectFeeDetail" resultMap="TbProjectFeeDetailResult">
+        <include refid="selectTbProjectFeeDetailVo"/>
+        <where>  
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+            <if test="baseTokenFee != null  and baseTokenFee != ''"> and base_token_fee = #{baseTokenFee}</if>
+            <if test="saleTokenFee != null  and saleTokenFee != ''"> and sale_token_fee = #{saleTokenFee}</if>
+            <if test="referralFee != null  and referralFee != ''"> and referral_fee = #{referralFee}</if>
+            <if test="baseTokenFeeAddress != null  and baseTokenFeeAddress != ''"> and base_token_fee_address = #{baseTokenFeeAddress}</if>
+            <if test="saleTokenFeeAddress != null  and saleTokenFeeAddress != ''"> and sale_token_fee_address = #{saleTokenFeeAddress}</if>
+            <if test="referralFeeAddress != null  and referralFeeAddress != ''"> and referral_fee_address = #{referralFeeAddress}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbProjectFeeDetailById" parameterType="Long" resultMap="TbProjectFeeDetailResult">
+        <include refid="selectTbProjectFeeDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbProjectFeeDetail" parameterType="TbProjectFeeDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_project_fee_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">project_id,</if>
+            <if test="baseTokenFee != null">base_token_fee,</if>
+            <if test="saleTokenFee != null">sale_token_fee,</if>
+            <if test="referralFee != null">referral_fee,</if>
+            <if test="baseTokenFeeAddress != null">base_token_fee_address,</if>
+            <if test="saleTokenFeeAddress != null">sale_token_fee_address,</if>
+            <if test="referralFeeAddress != null">referral_fee_address,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">#{projectId},</if>
+            <if test="baseTokenFee != null">#{baseTokenFee},</if>
+            <if test="saleTokenFee != null">#{saleTokenFee},</if>
+            <if test="referralFee != null">#{referralFee},</if>
+            <if test="baseTokenFeeAddress != null">#{baseTokenFeeAddress},</if>
+            <if test="saleTokenFeeAddress != null">#{saleTokenFeeAddress},</if>
+            <if test="referralFeeAddress != null">#{referralFeeAddress},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbProjectFeeDetail" parameterType="TbProjectFeeDetail">
+        update tb_project_fee_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectId != null">project_id = #{projectId},</if>
+            <if test="baseTokenFee != null">base_token_fee = #{baseTokenFee},</if>
+            <if test="saleTokenFee != null">sale_token_fee = #{saleTokenFee},</if>
+            <if test="referralFee != null">referral_fee = #{referralFee},</if>
+            <if test="baseTokenFeeAddress != null">base_token_fee_address = #{baseTokenFeeAddress},</if>
+            <if test="saleTokenFeeAddress != null">sale_token_fee_address = #{saleTokenFeeAddress},</if>
+            <if test="referralFeeAddress != null">referral_fee_address = #{referralFeeAddress},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbProjectFeeDetailById" parameterType="Long">
+        delete from tb_project_fee_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteTbProjectFeeDetailByIds" parameterType="String">
+        delete from tb_project_fee_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

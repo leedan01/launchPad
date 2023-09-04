@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.launchPad.web.mapper.TbBlockHeaderMapper">
+
+    <resultMap type="TbBlockHeader" id="TbBlockHeaderResult">
+        <result property="height"    column="height"    />
+        <result property="hash"    column="hash"    />
+        <result property="preHash"    column="pre_hash"    />
+        <result property="blockTime"    column="block_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTbBlockHeaderVo">
+        select height, block_time,hash, pre_hash, create_time from tb_block_header
+    </sql>
+
+    <select id="selectTbBlockHeaderList" parameterType="TbBlockHeader" resultMap="TbBlockHeaderResult">
+        <include refid="selectTbBlockHeaderVo"/>
+        <where>
+            <if test="hash != null  and hash != ''"> and hash = #{hash}</if>
+            <if test="preHash != null  and preHash != ''"> and pre_hash = #{preHash}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectTbBlockHeaderByHeight" parameterType="Long" resultMap="TbBlockHeaderResult">
+        <include refid="selectTbBlockHeaderVo"/>
+        where height = #{height}
+    </select>
+
+    <select id="selectLastBlockHeader" parameterType="java.lang.Integer" resultMap="TbBlockHeaderResult">
+        select
+            height, block_time,hash, pre_hash, create_time
+        from tb_block_header
+        where  height  = (select max(height) from tb_block_header)
+    </select>
+
+
+
+
+    <insert id="insertTbBlockHeader" parameterType="TbBlockHeader">
+        insert into tb_block_header
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="height != null">height,</if>
+            <if test="hash != null and hash != ''">hash,</if>
+            <if test="blockTime != null ">block_time,</if>
+            <if test="preHash != null and preHash != ''">pre_hash,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="height != null">#{height},</if>
+            <if test="hash != null and hash != ''">#{hash},</if>
+            <if test="blockTime != null ">#{blockTime},</if>
+            <if test="preHash != null and preHash != ''">#{preHash},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbBlockHeader" parameterType="TbBlockHeader">
+        update tb_block_header
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hash != null and hash != ''">hash = #{hash},</if>
+            <if test="blockTime != null ">block_time = #{blockTime},</if>
+            <if test="preHash != null and preHash != ''">pre_hash = #{preHash},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where height = #{height}
+    </update>
+
+    <delete id="deleteTbBlockHeaderByHeight" parameterType="Long">
+        delete from tb_block_header where height = #{height}
+    </delete>
+
+    <delete id="deleteTbBlockHeaderByHeights" parameterType="String">
+        delete from tb_block_header where height in
+        <foreach item="height" collection="array" open="(" separator="," close=")">
+            #{height}
+        </foreach>
+    </delete>
+</mapper>

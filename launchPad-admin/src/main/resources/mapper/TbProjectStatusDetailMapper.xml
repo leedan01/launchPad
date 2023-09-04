@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.launchPad.web.mapper.TbProjectStatusDetailMapper">
+
+    <resultMap type="TbProjectStatusDetail" id="TbProjectStatusDetailResult">
+        <result property="id"    column="id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="whiteOnly"    column="white_only"    />
+        <result property="lpGenerationComplete"    column="lp_generation_complete"    />
+        <result property="forceFailed"    column="force_failed"    />
+        <result property="totalBaseCollected"    column="total_base_collected"    />
+        <result property="totalTokensSold"    column="total_tokens_sold"    />
+        <result property="totalTokensWithdrawn"    column="total_tokens_withdrawn"    />
+        <result property="totalBaseWithdrawn"    column="total_base_withdrawn"    />
+        <result property="round1Length"    column="round1_length"    />
+        <result property="numBuyers"    column="num_buyers"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbProjectStatusDetailVo">
+        select id, project_id, white_only, lp_generation_complete, force_failed, total_base_collected, total_tokens_sold, total_tokens_withdrawn, total_base_withdrawn, round1_length, num_buyers, create_time, update_time from tb_project_status_detail
+    </sql>
+
+    <select id="selectTbProjectStatusDetailList" parameterType="TbProjectStatusDetail" resultMap="TbProjectStatusDetailResult">
+        <include refid="selectTbProjectStatusDetailVo"/>
+        <where>
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+            <if test="totalBaseCollected != null  and totalBaseCollected != ''"> and total_base_collected = #{totalBaseCollected}</if>
+            <if test="totalTokensSold != null  and totalTokensSold != ''"> and total_tokens_sold = #{totalTokensSold}</if>
+            <if test="totalTokensWithdrawn != null  and totalTokensWithdrawn != ''"> and total_tokens_withdrawn = #{totalTokensWithdrawn}</if>
+            <if test="totalBaseWithdrawn != null  and totalBaseWithdrawn != ''"> and total_base_withdrawn = #{totalBaseWithdrawn}</if>
+            <if test="round1Length != null  and round1Length != ''"> and round1_length = #{round1Length}</if>
+            <if test="numBuyers != null  and numBuyers != ''"> and num_buyers = #{numBuyers}</if>
+        </where>
+    </select>
+
+    <select id="selectTbProjectStatusDetailById" parameterType="Long" resultMap="TbProjectStatusDetailResult">
+        <include refid="selectTbProjectStatusDetailVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTbProjectStatusDetail" parameterType="TbProjectStatusDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_project_status_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">project_id,</if>
+            <if test="whiteOnly != null">white_only,</if>
+            <if test="lpGenerationComplete != null">lp_generation_complete,</if>
+            <if test="forceFailed != null">force_failed,</if>
+            <if test="totalBaseCollected != null">total_base_collected,</if>
+            <if test="totalTokensSold != null">total_tokens_sold,</if>
+            <if test="totalTokensWithdrawn != null">total_tokens_withdrawn,</if>
+            <if test="totalBaseWithdrawn != null">total_base_withdrawn,</if>
+            <if test="round1Length != null">round1_length,</if>
+            <if test="numBuyers != null">num_buyers,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">#{projectId},</if>
+            <if test="whiteOnly != null">#{whiteOnly},</if>
+            <if test="lpGenerationComplete != null">#{lpGenerationComplete},</if>
+            <if test="forceFailed != null">#{forceFailed},</if>
+            <if test="totalBaseCollected != null">#{totalBaseCollected},</if>
+            <if test="totalTokensSold != null">#{totalTokensSold},</if>
+            <if test="totalTokensWithdrawn != null">#{totalTokensWithdrawn},</if>
+            <if test="totalBaseWithdrawn != null">#{totalBaseWithdrawn},</if>
+            <if test="round1Length != null">#{round1Length},</if>
+            <if test="numBuyers != null">#{numBuyers},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbProjectStatusDetail" parameterType="TbProjectStatusDetail">
+        update tb_project_status_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectId != null">project_id = #{projectId},</if>
+            <if test="whiteOnly != null">white_only = #{whiteOnly},</if>
+            <if test="lpGenerationComplete != null">lp_generation_complete = #{lpGenerationComplete},</if>
+            <if test="forceFailed != null">force_failed = #{forceFailed},</if>
+            <if test="totalBaseCollected != null">total_base_collected = #{totalBaseCollected},</if>
+            <if test="totalTokensSold != null">total_tokens_sold = #{totalTokensSold},</if>
+            <if test="totalTokensWithdrawn != null">total_tokens_withdrawn = #{totalTokensWithdrawn},</if>
+            <if test="totalBaseWithdrawn != null">total_base_withdrawn = #{totalBaseWithdrawn},</if>
+            <if test="round1Length != null">round1_length = #{round1Length},</if>
+            <if test="numBuyers != null">num_buyers = #{numBuyers},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbProjectStatusDetailById" parameterType="Long">
+        delete from tb_project_status_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteTbProjectStatusDetailByIds" parameterType="String">
+        delete from tb_project_status_detail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

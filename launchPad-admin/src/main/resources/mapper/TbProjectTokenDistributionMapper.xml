@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.launchPad.web.mapper.TbProjectTokenDistributionMapper">
+    
+    <resultMap type="TbProjectTokenDistribution" id="TbProjectTokenDistributionResult">
+        <result property="id"    column="id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="name"    column="name"    />
+        <result property="percent"    column="percent"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbProjectTokenDistributionVo">
+        select id, project_id, name, percent, create_time, update_time from tb_project_token_distribution
+    </sql>
+
+    <select id="selectTbProjectTokenDistributionList" parameterType="TbProjectTokenDistribution" resultMap="TbProjectTokenDistributionResult">
+        <include refid="selectTbProjectTokenDistributionVo"/>
+        <where>  
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="percent != null  and percent != ''"> and percent = #{percent}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbProjectTokenDistributionById" parameterType="Long" resultMap="TbProjectTokenDistributionResult">
+        <include refid="selectTbProjectTokenDistributionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbProjectTokenDistribution" parameterType="TbProjectTokenDistribution" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_project_token_distribution
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">project_id,</if>
+            <if test="name != null">name,</if>
+            <if test="percent != null">percent,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">#{projectId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="percent != null">#{percent},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbProjectTokenDistribution" parameterType="TbProjectTokenDistribution">
+        update tb_project_token_distribution
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectId != null">project_id = #{projectId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="percent != null">percent = #{percent},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbProjectTokenDistributionById" parameterType="Long">
+        delete from tb_project_token_distribution where id = #{id}
+    </delete>
+
+    <delete id="deleteTbProjectTokenDistributionByIds" parameterType="String">
+        delete from tb_project_token_distribution where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
