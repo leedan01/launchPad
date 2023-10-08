@@ -114,4 +114,7 @@ logging:
     config: classpath:logback-dev.xml
 
 address:
-    generateAddress: "0x699ab1f543f093e08a56e0a647c5ed8111b0b3f9"
+    generateAddress: "0xfa6452f9463194969b072474b8178b5dedacd68a"
+    uniswapV2Locker: "0xBbd86A322B5E7D0d37d463f4374d8450358e5731"
+
+

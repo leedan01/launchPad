@@ -1,11 +1,16 @@
 package com.launchPad.web.service;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.util.List;
 import com.launchPad.web.domain.TbProject;
+import com.launchPad.web.dto.CreateProjectDTO;
 import com.launchPad.web.dto.QueryLaunchPadDTO;
+import com.launchPad.web.dto.QueryMyPublishLaunchPadDTO;
 import com.launchPad.web.vo.LaunchPadListVO;
 import com.launchPad.web.vo.LaunchPadProjectDetailVO;
+import com.launchPad.web.vo.MyPublishLaunchPadProjectDetailVO;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.Transaction;
 
@@ -78,6 +83,30 @@ public interface ITbProjectService
     public List<LaunchPadListVO>  getLaunchPadList(QueryLaunchPadDTO queryLaunchPadDTO);
 
     /**
+     * 获取我发布的项目
+     *
+     *@Author leedan
+     *@Description
+     *@Date 2023/9/18
+     *@param queryLaunchPadDTO
+     *@return java.util.List<com.launchPad.web.vo.LaunchPadListVO>
+     *@throws
+     */
+    public List<LaunchPadListVO>  getMyPublishLaunchPadList(QueryMyPublishLaunchPadDTO queryLaunchPadDTO);
+
+
+    /**
+     * 获取我发布的项目详情
+     *
+     *@Author leedan
+     *@Description
+     *@Date 2023/9/18
+     *@param id
+     *@return com.launchPad.web.vo.MyPublishLaunchPadProjectDetailVO
+     *@throws
+     */
+    public MyPublishLaunchPadProjectDetailVO getMyPublishProjectDetail(String id) throws ParseException;
+    /**
      * 根据项目id获取详情
      *
      *@Author leedan
@@ -88,6 +117,18 @@ public interface ITbProjectService
      *@throws
      */
     public LaunchPadProjectDetailVO getLaunchPadDetail(String id);
+
+    /**
+     * 新增项目
+     *
+     *@Author leedan
+     *@Description
+     *@Date 2023/9/18
+     *@param createProjectDTO
+     *@return int
+     *@throws
+     */
+    public String addProject(CreateProjectDTO createProjectDTO) throws IOException;
 
     /**
      * 从区块解析新增项目
@@ -102,5 +143,50 @@ public interface ITbProjectService
      *@throws
      */
     public void analysisCreateProject( Transaction tx, BigInteger height,List<Log> logs) throws Exception;
+
+    /**
+     * 用户领取
+     *
+     *@Author leedan
+     *@Description
+     *@Date 2023/10/8
+     *@param tx
+     *@param height
+     *@param logs
+     *@return void
+     *@throws
+     */
+    public void analysisUserWithdrawTokenProject( Transaction tx, BigInteger height,Log logs) throws Exception;
+
+
+    /**
+     * 用户退出
+     *
+     *@Author leedan
+     *@Description
+     *@Date 2023/10/8
+     *@param tx
+     *@param height
+     *@param logs
+     *@return void
+     *@throws
+     */
+    public void analysisUserWithdrawBaseTokenProject( Transaction tx, BigInteger height,Log logs) throws Exception;
+
+    /**
+     * 用户mint
+     *
+     *@Author leedan
+     *@Description
+     * 44 6/
+     *@Date 2023/10/8
+     *@param tx
+     *@param height
+     *@param logs
+     *@return void
+     *@throws
+     */
+    public void analysisUserMintProject( Transaction tx, BigInteger height,Log logs) throws Exception;
+
 
 }

@@ -15,9 +15,13 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "address")
 public class AddressConfig {
 
+    /**创建地址*/
     private String generateAddress;
 
     private String wnuls;
+
+    /**锁定地址*/
+    private String uniswapV2Locker;
 
 
 }

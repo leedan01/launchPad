@@ -3,6 +3,8 @@ package com.launchPad.web.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @Author leedan
  * @Description :
@@ -10,7 +12,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class QueryLaunchPadDTO {
+public class QueryMyPublishLaunchPadDTO {
 
     @ApiModelProperty("0.未开始1.进行中2.完成3.失败")
     private String status;
@@ -18,8 +20,8 @@ public class QueryLaunchPadDTO {
     @ApiModelProperty("项目名称")
     private String projectName;
 
-    @ApiModelProperty("用户地址")
-    private String userAddress;
-
+    @ApiModelProperty("地址")
+    @NotBlank(message = "address can not be null")
+    private String address;
 
 }

@@ -115,5 +115,9 @@ public class TbProject extends BaseEntity
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String discord;
 
+    /**项目所有者*/
+    private String projectOwner;
 
+    /**uid唯一表示用于解析链上项目*/
+    private Long uuid;
 }

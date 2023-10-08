@@ -11,7 +11,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-public class LaunchPadProjectDetailVO {
+public class MyPublishLaunchPadProjectDetailVO {
 
     private String id;
 
@@ -61,11 +61,22 @@ public class LaunchPadProjectDetailVO {
 
     private String projectAddress;
 
+
     private boolean nulsFlag;
 
+    /**是否已经添加流动性0.未添加1.添加*/
     private String lpFlag;
 
+    /**token分布列表*/
     private List<ProjectTokenDistributedVO> percentList;
 
+    /**项目失败是否已经，退出售卖token标识*/
+    private String withdrawSaleFlag;
+
+    /**合约锁定地址*/
+    private String lockerAddress;
+
+    /**添加流动性时间*/
+    private String addLiquidityTime;
 
 }

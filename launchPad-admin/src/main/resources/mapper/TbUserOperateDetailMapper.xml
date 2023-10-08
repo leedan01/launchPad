@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.launchPad.web.mapper.TbUserOperateDetailMapper">
+    
+    <resultMap type="TbUserOperateDetail" id="TbUserOperateDetailResult">
+        <result property="id"    column="id"    />
+        <result property="userAddress"    column="user_address"    />
+        <result property="status"    column="status"    />
+        <result property="type"    column="type"    />
+        <result property="txHash"    column="tx_hash"    />
+        <result property="amount"    column="amount"    />
+        <result property="projectAddress"    column="project_address"    />
+        <result property="blockHeight"    column="block_height"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbUserOperateDetailVo">
+        select id, user_address, status, type, tx_hash, amount, project_address, block_height, create_time, update_time from tb_user_operate_detail
+    </sql>
+
+    <select id="selectTbUserOperateDetailList" parameterType="TbUserOperateDetail" resultMap="TbUserOperateDetailResult">
+        <include refid="selectTbUserOperateDetailVo"/>
+        <where>  
+            <if test="userAddress != null  and userAddress != ''"> and user_address = #{userAddress}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="txHash != null  and txHash != ''"> and tx_hash = #{txHash}</if>
+            <if test="amount != null  and amount != ''"> and amount = #{amount}</if>
+            <if test="projectAddress != null  and projectAddress != ''"> and project_address = #{projectAddress}</if>
+            <if test="blockHeight != null  and blockHeight != ''"> and block_height = #{blockHeight}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbUserOperateDetailById" parameterType="Long" resultMap="TbUserOperateDetailResult">
+        <include refid="selectTbUserOperateDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbUserOperateDetail" parameterType="TbUserOperateDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_user_operate_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userAddress != null">user_address,</if>
+            <if test="status != null">status,</if>
+            <if test="type != null">type,</if>
+            <if test="txHash != null">tx_hash,</if>
+            <if test="amount != null">amount,</if>
+            <if test="projectAddress != null">project_address,</if>
+            <if test="blockHeight != null">block_height,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userAddress != null">#{userAddress},</if>
+            <if test="status != null">#{status},</if>
+            <if test="type != null">#{type},</if>
+            <if test="txHash != null">#{txHash},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="projectAddress != null">#{projectAddress},</if>
+            <if test="blockHeight != null">#{blockHeight},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbUserOperateDetail" parameterType="TbUserOperateDetail">
+        update tb_user_operate_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userAddress != null">user_address = #{userAddress},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="txHash != null">tx_hash = #{txHash},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="projectAddress != null">project_address = #{projectAddress},</if>
+            <if test="blockHeight != null">block_height = #{blockHeight},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbUserOperateDetailById" parameterType="Long">
+        delete from tb_user_operate_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteTbUserOperateDetailByIds" parameterType="String">
+        delete from tb_user_operate_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

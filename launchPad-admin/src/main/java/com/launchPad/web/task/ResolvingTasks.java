@@ -1,12 +1,13 @@
 package com.launchPad.web.task;
 
+import com.launchPad.common.utils.StringUtils;
 import com.launchPad.web.config.AddressConfig;
 import com.launchPad.web.domain.TbBlockHeader;
+import com.launchPad.web.domain.TbProject;
 import com.launchPad.web.enums.EventType;
 import com.launchPad.web.service.ITbBlockHeaderService;
 import com.launchPad.web.service.ITbProjectService;
 import com.launchPad.web.util.HtgWalletApiService;
-import net.sf.jsqlparser.util.validation.ValidationException;
 import network.nerve.heterogeneous.core.HtgWalletApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,8 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @Author leedan
@@ -61,7 +61,7 @@ public class ResolvingTasks {
      * @Description
      * @Date 2022/8/18
      */
-//    @Scheduled(initialDelay = 1000*10, fixedRate = 1000 * 15) //开始多少毫秒时候执行第一次  每隔多少毫秒执行一次
+    @Scheduled(initialDelay = 1000*10, fixedRate = 1000 * 15) //开始多少毫秒时候执行第一次  每隔多少毫秒执行一次
     public void resolveLog() throws Exception {
         long height = htgWalletApi.getBlockHeight();
         //与本地最新比较高度，若跟本地高度不一致则进行区块解析
@@ -129,7 +129,7 @@ public class ResolvingTasks {
                 if (to != null) {
                     //log.info("to地址--------" + to);
                     //ss
-                    if (to.equals(addressConfig.getGenerateAddress()) ) {
+                    if (to.equals(addressConfig.getGenerateAddress()) ||  isProjectList(to)) {
                         analysisTx(tx, block.getNumber(), block.getTimestamp());
                     }
 
@@ -162,9 +162,18 @@ public class ResolvingTasks {
             List<String> topics = topicLog.getTopics();
             String topic0 = topics.get(0);
             switch (topic0) {
-//              暂停项目
-                case EventType.CREATE_PROJECT:
+//              创建项目
+                case EventType.PROJECT_PARAM:
                     projectService.analysisCreateProject(tx,height,logs);
+                    break;
+                case EventType.USER_MINT: //用户mint
+                    projectService.analysisUserMintProject(tx,height,topicLog);
+                    break;
+                case EventType.USER_WITHDRAW: //用户领取
+                    projectService.analysisUserWithdrawTokenProject(tx,height,topicLog);
+                    break;
+                case EventType.USER_WITHDRAW_BASE_TOKEN: //用户退出
+                    projectService.analysisUserWithdrawBaseTokenProject(tx,height,topicLog);
                     break;
                 default:
                     break;
@@ -173,6 +182,20 @@ public class ResolvingTasks {
 
     }
 
+    public boolean isProjectList(String toAddress){
+        TbProject project = new TbProject();
+        List<TbProject> list = projectService.selectTbProjectList(project);
+        AtomicBoolean flag = new AtomicBoolean(false);
+        list.forEach(v ->{
+            String projectAddress = v.getProjectAddress();
+            if(StringUtils.isNotBlank(projectAddress)){
+                if(toAddress.toLowerCase().equals(projectAddress)){
+                    flag.set(true);
+                }
+            }
+        });
+        return flag.get();
+    }
 
 
 

@@ -3,8 +3,10 @@ package com.launchPad.web.mapper;
 import java.util.List;
 import com.launchPad.web.domain.TbProject;
 import com.launchPad.web.dto.QueryLaunchPadDTO;
+import com.launchPad.web.dto.QueryMyPublishLaunchPadDTO;
 import com.launchPad.web.vo.LaunchPadListVO;
 import com.launchPad.web.vo.LaunchPadProjectDetailVO;
+import com.launchPad.web.vo.MyPublishLaunchPadProjectDetailVO;
 
 /**
  * 项目基本信息Mapper接口
@@ -74,6 +76,21 @@ public interface TbProjectMapper
      */
     public List<LaunchPadListVO>   getLaunchPadList(QueryLaunchPadDTO queryLaunchPadDTO);
 
+    public List<LaunchPadListVO>   getLaunchPadListByUser(QueryLaunchPadDTO queryLaunchPadDTO);
+
+    /**
+     * 获取我发布的项目列表
+     *
+     *@Author leedan
+     *@Description
+     *@Date 2023/9/18
+     *@param queryLaunchPadDTO
+     *@return java.util.List<com.launchPad.web.vo.LaunchPadListVO>
+     *@throws
+     */
+    public List<LaunchPadListVO>   getMyPublishLaunchPadList(QueryMyPublishLaunchPadDTO queryLaunchPadDTO);
+
+
     /**
      * 根据项目id获取详情
      *
@@ -85,4 +102,17 @@ public interface TbProjectMapper
      *@throws
      */
     public LaunchPadProjectDetailVO getLaunchDetailById(String id);
+
+
+    /**
+     * 获取我发布的项目详情
+     *
+     *@Author leedan
+     *@Description
+     *@Date 2023/9/18
+     *@param id
+     *@return com.launchPad.web.vo.MyPublishLaunchPadProjectDetailVO
+     *@throws
+     */
+    public MyPublishLaunchPadProjectDetailVO getMyPublishProjectDetail(String id);
 }

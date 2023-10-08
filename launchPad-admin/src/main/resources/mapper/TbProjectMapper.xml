@@ -31,6 +31,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="telegram"    column="telegram"    />
         <result property="twitter"    column="twitter"    />
         <result property="discord"    column="discord"    />
+        <result property="projectOwner"    column="project_owner"    />
+        <result property="uuid"    column="uuid"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
     </resultMap>
@@ -50,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="saleToken"    column="sale_token"    />
         <result property="saleTokenSymbol"    column="sale_token_symbol"    />
         <result property="hardCap"    column="hard_cap"    />
+        <result property="softCap"    column="soft_cap"    />
         <result property="totalBaseCollected"    column="total_base_collected"    />
         <result property="tokenPrice"    column="token_price"    />
         <result property="poolPrice"    column="list_rate"    />
@@ -59,13 +62,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="maxPerBuy"    column="max_per_buy"    />
         <result property="lockTime"    column="lock_period"    />
         <result property="projectAddress"    column="project_address"    />
+        <result property="lpFlag"    column="lp_generation_complete"    />
+        <collection property="percentList" select="selectAllocationList"
+                    ofType="com.launchPad.web.vo.ProjectTokenDistributedVO" column="id">
+        </collection>
+    </resultMap>
+
+    <resultMap type="com.launchPad.web.vo.MyPublishLaunchPadProjectDetailVO" id="MyLaunchPadDetail">
+        <result property="id"    column="id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="status"    column="status"    />
+        <result property="website"    column="website"    />
+        <result property="telegram"    column="telegram"    />
+        <result property="twitter"    column="twitter"    />
+        <result property="discord"    column="discord"    />
+        <result property="context"    column="context"    />
+        <result property="baseToken"    column="base_token"    />
+        <result property="baseTokenSymbol"    column="base_token_symbol"    />
+        <result property="saleToken"    column="sale_token"    />
+        <result property="saleTokenSymbol"    column="sale_token_symbol"    />
+        <result property="hardCap"    column="hard_cap"    />
+        <result property="softCap"    column="soft_cap"    />
+        <result property="totalBaseCollected"    column="total_base_collected"    />
+        <result property="tokenPrice"    column="token_price"    />
+        <result property="poolPrice"    column="list_rate"    />
+        <result property="percent"    column="percent"    />
+        <result property="startBlock"    column="start_block"    />
+        <result property="endBlock"    column="end_block"    />
+        <result property="maxPerBuy"    column="max_per_buy"    />
+        <result property="lockTime"    column="lock_period"    />
+        <result property="projectAddress"    column="project_address"    />
+        <result property="lpFlag"    column="lp_generation_complete"    />
+        <result property="addLiquidityTime"    column="update_time"    />
         <collection property="percentList" select="selectAllocationList"
                     ofType="com.launchPad.web.vo.ProjectTokenDistributedVO" column="id">
         </collection>
     </resultMap>
 
     <sql id="selectTbProjectVo">
-        select id, project_name, context, base_token, sale_token, base_token_symbol,img_url, sale_token_symbol, token_price, max_per_buy, amount, hard_cap, soft_cap, current_cap, start_block, end_block, percent, list_rate, lock_period, eth_flag, status, project_address, website, telegram, twitter, discord, create_time, update_time from tb_project
+        select id, project_name,project_owner,uuid, context, base_token, sale_token, base_token_symbol,img_url, sale_token_symbol, token_price, max_per_buy, amount, hard_cap, soft_cap, current_cap, start_block, end_block, percent, list_rate, lock_period, eth_flag, status, project_address, website, telegram, twitter, discord, create_time, update_time from tb_project
     </sql>
 
     <select id="selectTbProjectList" parameterType="TbProject" resultMap="TbProjectResult">
@@ -73,6 +109,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
             <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+            <if test="projectOwner != null  and projectOwner != ''"> and project_owner = #{projectOwner}</if>
+            <if test="uuid != null  and uuid != ''"> and uuid = #{uuid}</if>
             <if test="context != null  and context != ''"> and context = #{context}</if>
             <if test="baseToken != null  and baseToken != ''"> and base_token = #{baseToken}</if>
             <if test="saleToken != null  and saleToken != ''"> and sale_token = #{saleToken}</if>
@@ -132,12 +170,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="telegram != null">telegram,</if>
             <if test="twitter != null">twitter,</if>
             <if test="discord != null">discord,</if>
+            <if test="projectOwner != null">project_owner,</if>
+            <if test="uuid != null">uuid,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectName != null">#{projectName},</if>
-            <if test="imgUrl != null">#{img_url},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
             <if test="context != null">#{context},</if>
             <if test="baseToken != null">#{baseToken},</if>
             <if test="saleToken != null">#{saleToken},</if>
@@ -161,6 +201,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="telegram != null">#{telegram},</if>
             <if test="twitter != null">#{twitter},</if>
             <if test="discord != null">#{discord},</if>
+            <if test="projectOwner != null">#{projectOwner},</if>
+            <if test="uuid != null">#{uuid},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
          </trim>
@@ -194,6 +236,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="telegram != null">telegram = #{telegram},</if>
             <if test="twitter != null">twitter = #{twitter},</if>
             <if test="discord != null">discord = #{discord},</if>
+            <if test="projectOwner != null">project_owner = #{projectOwner},</if>
+            <if test="uuid != null">uuid = #{uuid},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
@@ -232,6 +276,56 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null  and status != ''"> and pro.`status` = #{status}</if>
     </select>
 
+
+    <select id="getLaunchPadListByUser" parameterType="com.launchPad.web.dto.QueryLaunchPadDTO" resultType="com.launchPad.web.vo.LaunchPadListVO">
+        select
+        pro.id,
+        pro.project_name as projectName,
+        pro.`status` as status,
+        pro.img_url as imgUrl,
+        pro.base_token_symbol as baseTokenSymbol,
+        pro.sale_token_symbol as saleTokenSymbol,
+        pro.list_rate as poolPrice,
+        pro.token_price as salePrice,
+        pro.hard_cap as hardCap,
+        pro.lock_period as lockTime,
+        detail.total_base_collected as totalBaseCollected,
+        temp.`status` as userStatus
+        from tb_project pro
+        left join tb_project_status_detail detail on pro.id = detail.project_id
+        left join (select * from tb_user_operate_detail where id  in 	(select max(id) from tb_user_operate_detail where user_address = #{userAddress} group by project_address)) temp on temp.project_address = pro.project_address
+        where 1= 1
+        <if test="projectName != null  and projectName != ''"> and pro.project_name like concat('%', #{projectName}, '%')</if>
+        <if test="status != null  and status != ''"> and pro.`status` = #{status}</if>
+        <if test="userAddress != null  and userAddress != ''"> and temp.`status` is not null</if>
+        order by   temp.`status`  asc
+    </select>
+
+<!--    获取我发布的项目列表-->
+    <select id="getMyPublishLaunchPadList" parameterType="com.launchPad.web.dto.QueryMyPublishLaunchPadDTO" resultType="com.launchPad.web.vo.LaunchPadListVO">
+        select
+        pro.id,
+        pro.project_name as projectName,
+        pro.`status` as status,
+        pro.img_url as imgUrl,
+        pro.base_token_symbol as baseTokenSymbol,
+        pro.sale_token_symbol as saleTokenSymbol,
+        pro.list_rate as poolPrice,
+        pro.token_price as salePrice,
+        pro.hard_cap as hardCap,
+        pro.lock_period as lockTime,
+        detail.total_base_collected as totalBaseCollected
+        from tb_project pro
+        left join tb_project_status_detail detail on pro.id = detail.project_id
+        where 1= 1
+        <if test="projectName != null  and projectName != ''"> and pro.project_name like concat('%', #{projectName}, '%')</if>
+        <if test="status != null  and status != ''"> and pro.`status` = #{status}</if>
+        <if test="address != null  and address != ''"> and pro.project_owner = #{address}</if>
+
+    </select>
+
+
+
 <!--    获取项目详情-->
     <select id="getLaunchDetailById" parameterType="java.lang.String" resultMap="LaunchPadDetail">
         select
@@ -254,14 +348,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             pro.discord,
             pro.project_address,
             pro.hard_cap,
+            pro.soft_cap,
             pro.max_per_buy,
             pro.percent,
             pro.lock_period,
-            sta.total_base_collected
+            sta.total_base_collected,
+            sta.lp_generation_complete
         from tb_project pro
                  left join tb_project_status_detail sta on sta.project_id = pro.id
             where pro.id = #{id}
     </select>
+
+<!-- 获取我发布的项目详情-->
+    <select id="getMyPublishProjectDetail" parameterType="java.lang.String" resultMap="MyLaunchPadDetail">
+        select
+            pro.id,
+            pro.project_name,
+            pro.img_url,
+            pro.`status`,
+            pro.context,
+            pro.base_token,
+            pro.base_token_symbol,
+            pro.sale_token,
+            pro.sale_token_symbol,
+            pro.list_rate,
+            pro.token_price,
+            pro.start_block,
+            pro.end_block,
+            pro.website,
+            pro.telegram,
+            pro.twitter,
+            pro.discord,
+            pro.project_address,
+            pro.hard_cap,
+            pro.soft_cap,
+            pro.max_per_buy,
+            pro.percent,
+            pro.lock_period,
+            pro.update_time,
+            sta.total_base_collected,
+            sta.lp_generation_complete
+        from tb_project pro
+                 left join tb_project_status_detail sta on sta.project_id = pro.id
+        where pro.id = #{id}
+    </select>
+
 
     <select id="selectAllocationList" parameterType="java.lang.String" resultType="com.launchPad.web.vo.ProjectTokenDistributedVO">
         select name,percent as `value` from tb_project_token_distribution where project_id = #{id}

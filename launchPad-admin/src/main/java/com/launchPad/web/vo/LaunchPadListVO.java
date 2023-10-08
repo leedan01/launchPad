@@ -40,7 +40,7 @@ public class LaunchPadListVO {
 
     private String lockTime;
 
-
+    private String userStatus;
 
 
 }

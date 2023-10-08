@@ -108,10 +108,11 @@ spring:
                 max-idle: 8
                 # 连接池的最大数据库连接数
                 max-active: 8
-                # #连接池最大阻塞等待时间（使用负值表示没有限制）
+                # #连接池最大阻塞000等待时间（使用负值表示没有限制）
                 max-wait: -1ms
 logging:
     config: classpath:logback-beta.xml
 
 address:
-    generateAddress: "0x699ab1f543f093e08a56e0a647c5ed8111b0b3f9"
+    generateAddress: "0xfa6452f9463194969b072474b8178b5dedacd68a"
+    uniswapV2Locker: "0xBbd86A322B5E7D0d37d463f4374d8450358e5731"
