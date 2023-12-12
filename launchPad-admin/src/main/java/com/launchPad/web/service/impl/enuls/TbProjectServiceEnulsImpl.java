@@ -1,60 +1,59 @@
-package com.launchPad.web.service.impl;
+package com.launchPad.web.service.impl.enuls;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import cn.hutool.core.lang.UUID;
 import com.alibaba.fastjson2.JSON;
 import com.launchPad.common.config.RuoYiConfig;
 import com.launchPad.common.core.domain.AjaxResult;
 import com.launchPad.common.utils.DateUtils;
 import com.launchPad.common.utils.file.FileUploadUtils;
-import com.launchPad.common.utils.spring.SpringUtils;
 import com.launchPad.framework.config.ServerConfig;
 import com.launchPad.web.config.AddressConfig;
+import com.launchPad.web.config.AddressEnulsConfig;
+import com.launchPad.web.domain.TbProject;
 import com.launchPad.web.domain.TbProjectCreateDetail;
 import com.launchPad.web.domain.TbProjectTokenDistribution;
 import com.launchPad.web.domain.TbUserOperateDetail;
+import com.launchPad.web.domain.enuls.TbProjectCreateDetailEnuls;
+import com.launchPad.web.domain.enuls.TbProjectEnuls;
+import com.launchPad.web.domain.enuls.TbProjectTokenDistributionEnuls;
+import com.launchPad.web.domain.enuls.TbUserOperateDetailEnuls;
 import com.launchPad.web.dto.CreateProjectDTO;
 import com.launchPad.web.dto.QueryLaunchPadDTO;
 import com.launchPad.web.dto.QueryMyPublishLaunchPadDTO;
 import com.launchPad.web.dto.TokenDistributeDTO;
 import com.launchPad.web.enums.EventType;
-import com.launchPad.web.enums.ProjectStatusEnum;
 import com.launchPad.web.enums.UserStatusEnum;
 import com.launchPad.web.mapper.TbProjectCreateDetailMapper;
+import com.launchPad.web.mapper.TbProjectMapper;
 import com.launchPad.web.mapper.TbProjectTokenDistributionMapper;
 import com.launchPad.web.mapper.TbUserOperateDetailMapper;
-import com.launchPad.web.task.ResolvingTasks;
+import com.launchPad.web.mapper.enuls.TbProjectCreateDetailEnulsMapper;
+import com.launchPad.web.mapper.enuls.TbProjectEnulsMapper;
+import com.launchPad.web.mapper.enuls.TbProjectTokenDistributionEnulsMapper;
+import com.launchPad.web.mapper.enuls.TbUserOperateDetailEnulsMapper;
+import com.launchPad.web.service.ITbProjectService;
+import com.launchPad.web.service.enuls.ITbProjectEnulsService;
 import com.launchPad.web.util.Aes;
 import com.launchPad.web.util.HtgWalletApiService;
 import com.launchPad.web.util.ProjectUtil;
 import com.launchPad.web.vo.LaunchPadListVO;
 import com.launchPad.web.vo.LaunchPadProjectDetailVO;
 import com.launchPad.web.vo.MyPublishLaunchPadProjectDetailVO;
-import network.nerve.heterogeneous.utils.ListUtil;
 import network.nerve.heterogeneous.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.launchPad.web.mapper.TbProjectMapper;
-import com.launchPad.web.domain.TbProject;
-import com.launchPad.web.service.ITbProjectService;
 import org.springframework.transaction.annotation.Transactional;
-import org.web3j.abi.FunctionReturnDecoder;
-import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Type;
-import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.Transaction;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 项目基本信息Service业务层处理
@@ -64,28 +63,28 @@ import org.web3j.protocol.core.methods.response.Transaction;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class TbProjectServiceImpl implements ITbProjectService
+public class TbProjectServiceEnulsImpl implements ITbProjectEnulsService
 {
     @Autowired
-    private TbProjectMapper tbProjectMapper;
+    private TbProjectEnulsMapper tbProjectMapper;
 
     @Autowired
     private ServerConfig serverConfig;
 
     @Autowired
-    private TbProjectCreateDetailMapper projectCreateDetailMapper;
+    private TbProjectCreateDetailEnulsMapper projectCreateDetailMapper;
 
 
     @Autowired
-    private TbProjectTokenDistributionMapper tbProjectTokenDistributionMapper;
+    private TbProjectTokenDistributionEnulsMapper tbProjectTokenDistributionMapper;
 
     @Autowired
-    private TbUserOperateDetailMapper tbUserOperateDetailMapper;
+    private TbUserOperateDetailEnulsMapper tbUserOperateDetailMapper;
 
     @Autowired
-    private AddressConfig addressConfig;
+    private AddressEnulsConfig addressConfig;
 
-    private static final Logger useLog = LoggerFactory.getLogger(TbProjectServiceImpl.class);
+    private static final Logger useLog = LoggerFactory.getLogger(TbProjectServiceEnulsImpl.class);
 
     /**
      * 查询项目基本信息
@@ -94,7 +93,7 @@ public class TbProjectServiceImpl implements ITbProjectService
      * @return 项目基本信息
      */
     @Override
-    public TbProject selectTbProjectById(Long id)
+    public TbProjectEnuls selectTbProjectById(Long id)
     {
         return tbProjectMapper.selectTbProjectById(id);
     }
@@ -106,7 +105,7 @@ public class TbProjectServiceImpl implements ITbProjectService
      * @return 项目基本信息
      */
     @Override
-    public List<TbProject> selectTbProjectList(TbProject tbProject)
+    public List<TbProjectEnuls> selectTbProjectList(TbProjectEnuls tbProject)
     {
         return tbProjectMapper.selectTbProjectList(tbProject);
     }
@@ -118,7 +117,7 @@ public class TbProjectServiceImpl implements ITbProjectService
      * @return 结果
      */
     @Override
-    public int insertTbProject(TbProject tbProject)
+    public int insertTbProject(TbProjectEnuls tbProject)
     {
         tbProject.setCreateTime(DateUtils.getNowDate());
         return tbProjectMapper.insertTbProject(tbProject);
@@ -131,7 +130,7 @@ public class TbProjectServiceImpl implements ITbProjectService
      * @return 结果
      */
     @Override
-    public int updateTbProject(TbProject tbProject)
+    public int updateTbProject(TbProjectEnuls tbProject)
     {
         tbProject.setUpdateTime(DateUtils.getNowDate());
         return tbProjectMapper.updateTbProject(tbProject);
@@ -212,7 +211,7 @@ public class TbProjectServiceImpl implements ITbProjectService
     @Override
     public MyPublishLaunchPadProjectDetailVO getMyPublishProjectDetail(String id) throws ParseException {
         MyPublishLaunchPadProjectDetailVO myPublishLaunchPadProjectDetailVO = tbProjectMapper.getMyPublishProjectDetail(id);
-        myPublishLaunchPadProjectDetailVO.setLockerAddress(addressConfig.getUniswapV2Locker());
+        myPublishLaunchPadProjectDetailVO.setLockerAddress(addressConfig.getEnulsUniswapV2Locker());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String updateTime = myPublishLaunchPadProjectDetailVO.getAddLiquidityTime();
         Long lastTime = format.parse(updateTime).getTime()/1000;
@@ -248,7 +247,7 @@ public class TbProjectServiceImpl implements ITbProjectService
      */
     @Override
     public AjaxResult addProject(CreateProjectDTO createProjectDTO) throws Exception {
-        TbProject tbProject = new TbProject();
+        TbProjectEnuls tbProject = new TbProjectEnuls();
         String  sign = createProjectDTO.getSign();
         String jsonString = Aes.aesDecrypt(sign, Aes.KEY);
         if(!jsonString.equals(createProjectDTO.getProjectName())){
@@ -259,7 +258,6 @@ public class TbProjectServiceImpl implements ITbProjectService
         String filePath = RuoYiConfig.getUploadPath();
         String fileName = FileUploadUtils.upload(filePath, createProjectDTO.getFiles());
         String url = serverConfig.getUrl() + fileName;
-
         if(url.contains("8081")){
             String lastUrl =url.substring(url.indexOf("/profile/upload"),url.length());
             lastUrl = "https://info.nerc20.cash"+lastUrl;
@@ -273,8 +271,8 @@ public class TbProjectServiceImpl implements ITbProjectService
             useLog.info("分配比例传参--------" + createProjectDTO.getDistributeList());
             List<TokenDistributeDTO> list = JSON.parseArray(createProjectDTO.getDistributeList(), TokenDistributeDTO.class);
             for (TokenDistributeDTO tokenAllocationDTO : list) {
-                if(!network.nerve.heterogeneous.utils.StringUtils.isBlank(tokenAllocationDTO.getName()) && tokenAllocationDTO.getPercent() != null){
-                    TbProjectTokenDistribution tbTokenAllocation = new TbProjectTokenDistribution();
+                if(!StringUtils.isBlank(tokenAllocationDTO.getName()) && tokenAllocationDTO.getPercent() != null){
+                    TbProjectTokenDistributionEnuls tbTokenAllocation = new TbProjectTokenDistributionEnuls();
                     BeanUtils.copyProperties(tokenAllocationDTO, tbTokenAllocation);
                     tbTokenAllocation.setProjectId(projectId);
                      tbProjectTokenDistributionMapper.insertTbProjectTokenDistribution(tbTokenAllocation);
@@ -298,14 +296,14 @@ public class TbProjectServiceImpl implements ITbProjectService
      */
     @Override
     public void analysisCreateProject(Transaction tx, BigInteger height, List<Log> logs) throws Exception {
-        TbProjectCreateDetail tbProjectCreateDetail = new TbProjectCreateDetail();
+        TbProjectCreateDetailEnuls tbProjectCreateDetail = new TbProjectCreateDetailEnuls();
         String baseTokenAddress = "";
         String baseTokenDecimals = "";
         String tokenBaseSymbol = "";
         String saleTokenAddress = "";
         String saleTokenSymbol ="";
         String saleTokenDecimals = "";
-        TbProject tbProject = new TbProject();
+        TbProjectEnuls tbProject = new TbProjectEnuls();
         String txHash =  tx.getHash();
         tbProjectCreateDetail.setTxHash(txHash);
         tbProjectCreateDetail.setBlockHeight(height.longValue());
@@ -337,15 +335,15 @@ public class TbProjectServiceImpl implements ITbProjectService
                 tbProject.setProjectOwner(owner);
                 tbProject.setSaleToken(list.get(2));
                 tbProject.setSaleToken(list.get(2));
-                int decimal = HtgWalletApiService.getHtgWalletApi().getERC20TokenDecimals(saleTokenAddress);
+                int decimal = HtgWalletApiService.getEnulsHtgWalletApi().getERC20TokenDecimals(saleTokenAddress);
                 saleTokenDecimals = ProjectUtil.getDecimals(String.valueOf(decimal));
-                saleTokenSymbol = HtgWalletApiService.getHtgWalletApi().getERC20TokenSymbol(saleTokenAddress);
+                saleTokenSymbol = HtgWalletApiService.getEnulsHtgWalletApi().getERC20TokenSymbol(saleTokenAddress);
                 tbProject.setSaleTokenSymbol(saleTokenSymbol);
                 baseTokenAddress  = list.get(3);
                 tbProject.setBaseToken(list.get(3));
-                int decimal1 = HtgWalletApiService.getHtgWalletApi().getERC20TokenDecimals(baseTokenAddress);
+                int decimal1 = HtgWalletApiService.getEnulsHtgWalletApi().getERC20TokenDecimals(baseTokenAddress);
                 baseTokenDecimals = ProjectUtil.getDecimals(String.valueOf(decimal1));
-                tokenBaseSymbol = HtgWalletApiService.getHtgWalletApi().getERC20TokenSymbol(baseTokenAddress);
+                tokenBaseSymbol = HtgWalletApiService.getEnulsHtgWalletApi().getERC20TokenSymbol(baseTokenAddress);
                 tbProject.setBaseTokenSymbol(tokenBaseSymbol);
 
             }
@@ -405,7 +403,7 @@ public class TbProjectServiceImpl implements ITbProjectService
      */
     @Override
     public void analysisUserWithdrawTokenProject(Transaction tx, BigInteger height, Log logs) throws Exception {
-        TbUserOperateDetail tbUserOperateDetail = new TbUserOperateDetail();
+        TbUserOperateDetailEnuls tbUserOperateDetail = new TbUserOperateDetailEnuls();
         //解析日志
         List<String> list = new ArrayList<>();
         String temp = logs.getData();
@@ -454,7 +452,7 @@ public class TbProjectServiceImpl implements ITbProjectService
      */
     @Override
     public void analysisUserWithdrawBaseTokenProject(Transaction tx, BigInteger height, Log logs) throws Exception {
-        TbUserOperateDetail tbUserOperateDetail = new TbUserOperateDetail();
+        TbUserOperateDetailEnuls tbUserOperateDetail = new TbUserOperateDetailEnuls();
         //解析日志
         List<String> list = new ArrayList<>();
         String temp = logs.getData();
@@ -503,7 +501,7 @@ public class TbProjectServiceImpl implements ITbProjectService
      */
     @Override
     public void analysisUserMintProject(Transaction tx, BigInteger height, Log logs) throws Exception {
-        TbUserOperateDetail tbUserOperateDetail = new TbUserOperateDetail();
+        TbUserOperateDetailEnuls tbUserOperateDetail = new TbUserOperateDetailEnuls();
         //解析日志
         List<String> list = new ArrayList<>();
         String temp = logs.getData();

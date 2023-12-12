@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.launchPad.web.mapper.enuls.TbProjectCreateDetailEnulsMapper">
+
+    <resultMap type="TbProjectCreateDetailEnuls" id="TbProjectCreateDetailResult">
+        <result property="id"    column="id"    />
+        <result property="projectAddress"    column="project_address"    />
+        <result property="blockHeight"    column="block_height"    />
+        <result property="txHash"    column="tx_hash"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbProjectCreateDetailVo">
+        select id, project_address, block_height, tx_hash, create_time, update_time from tb_project_create_detail_enuls
+    </sql>
+
+    <select id="selectTbProjectCreateDetailList" parameterType="TbProjectCreateDetailEnuls" resultMap="TbProjectCreateDetailResult">
+        <include refid="selectTbProjectCreateDetailVo"/>
+        <where>
+            <if test="projectAddress != null  and projectAddress != ''"> and project_address = #{projectAddress}</if>
+            <if test="blockHeight != null "> and block_height = #{blockHeight}</if>
+            <if test="txHash != null  and txHash != ''"> and tx_hash = #{txHash}</if>
+        </where>
+    </select>
+
+    <select id="selectTbProjectCreateDetailById" parameterType="Long" resultMap="TbProjectCreateDetailResult">
+        <include refid="selectTbProjectCreateDetailVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTbProjectCreateDetail" parameterType="TbProjectCreateDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_project_create_detail_enuls
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectAddress != null">project_address,</if>
+            <if test="blockHeight != null">block_height,</if>
+            <if test="txHash != null">tx_hash,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectAddress != null">#{projectAddress},</if>
+            <if test="blockHeight != null">#{blockHeight},</if>
+            <if test="txHash != null">#{txHash},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbProjectCreateDetail" parameterType="TbProjectCreateDetailEnuls">
+        update tb_project_create_detail_enuls
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectAddress != null">project_address = #{projectAddress},</if>
+            <if test="blockHeight != null">block_height = #{blockHeight},</if>
+            <if test="txHash != null">tx_hash = #{txHash},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbProjectCreateDetailById" parameterType="Long">
+        delete from tb_project_create_detail_enuls where id = #{id}
+    </delete>
+
+    <delete id="deleteTbProjectCreateDetailByIds" parameterType="String">
+        delete from tb_project_create_detail_enuls where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -117,4 +117,6 @@ address:
     generateAddress: "0xfa6452f9463194969b072474b8178b5dedacd68a"
     uniswapV2Locker: "0xBbd86A322B5E7D0d37d463f4374d8450358e5731"
 
-
+enulsaddress:
+    enulsGenerateAddress: "0xfa6452f9463194969b072474b8178b5dedacd68a"
+    enulsUniswapV2Locker: "0xBbd86A322B5E7D0d37d463f4374d8450358e5731"

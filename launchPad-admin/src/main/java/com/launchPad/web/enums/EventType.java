@@ -23,5 +23,10 @@ public class EventType {
     /**用户领取*/
     public  static final String USER_WITHDRAW = "0x678b6accbc8c6e69891dc9221012b05c01fbb6b180fcc49726e4f9621d53046e";
 
+    public static String enuls_rpcAddress = "https://evmapi.nuls.io";
+
+    public  static String enuls_chainName = "ENULS Mainnet";
+
+    public final static String enusl_symbol = "NULS";
 
 }

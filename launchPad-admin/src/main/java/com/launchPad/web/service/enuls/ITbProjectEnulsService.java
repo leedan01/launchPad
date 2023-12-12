@@ -1,12 +1,8 @@
-package com.launchPad.web.service;
-
-import java.io.IOException;
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.util.List;
+package com.launchPad.web.service.enuls;
 
 import com.launchPad.common.core.domain.AjaxResult;
 import com.launchPad.web.domain.TbProject;
+import com.launchPad.web.domain.enuls.TbProjectEnuls;
 import com.launchPad.web.dto.CreateProjectDTO;
 import com.launchPad.web.dto.QueryLaunchPadDTO;
 import com.launchPad.web.dto.QueryMyPublishLaunchPadDTO;
@@ -16,13 +12,17 @@ import com.launchPad.web.vo.MyPublishLaunchPadProjectDetailVO;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.Transaction;
 
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.util.List;
+
 /**
  * 项目基本信息Service接口
  *
  * @author ruoyi
  * @date 2023-08-23
  */
-public interface ITbProjectService
+public interface ITbProjectEnulsService
 {
     /**
      * 查询项目基本信息
@@ -30,7 +30,7 @@ public interface ITbProjectService
      * @param id 项目基本信息主键
      * @return 项目基本信息
      */
-    public TbProject selectTbProjectById(Long id);
+    public TbProjectEnuls selectTbProjectById(Long id);
 
     /**
      * 查询项目基本信息列表
@@ -38,7 +38,7 @@ public interface ITbProjectService
      * @param tbProject 项目基本信息
      * @return 项目基本信息集合
      */
-    public List<TbProject> selectTbProjectList(TbProject tbProject);
+    public List<TbProjectEnuls> selectTbProjectList(TbProjectEnuls tbProject);
 
     /**
      * 新增项目基本信息
@@ -46,7 +46,7 @@ public interface ITbProjectService
      * @param tbProject 项目基本信息
      * @return 结果
      */
-    public int insertTbProject(TbProject tbProject);
+    public int insertTbProject(TbProjectEnuls tbProject);
 
     /**
      * 修改项目基本信息
@@ -54,7 +54,7 @@ public interface ITbProjectService
      * @param tbProject 项目基本信息
      * @return 结果
      */
-    public int updateTbProject(TbProject tbProject);
+    public int updateTbProject(TbProjectEnuls tbProject);
 
     /**
      * 批量删除项目基本信息

@@ -24,6 +24,8 @@ public class LaunchPadListVO {
 
     private String baseTokenSymbol;
 
+    private String baseToken;
+
     private String saleTokenSymbol;
 
     /**售卖价格*/

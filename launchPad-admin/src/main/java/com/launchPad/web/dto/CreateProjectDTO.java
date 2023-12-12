@@ -40,4 +40,7 @@ public class CreateProjectDTO {
     /**token分布列表*/
     private String distributeList;
 
+    @NotBlank(message = "sign can not be null" )
+    private String sign;
+
 }

@@ -36,7 +36,7 @@ public interface ITbBlockHeaderService
      *@Description
      *@Date 2022/9/6
      *@param
-     *@return io.unamano.web.domain.block.TbBlockHeader
+     *@return io.unamano.web.domain.block.TbBlockHeaderEnuls
      *@throws
      */
     public TbBlockHeader selectLastBlockHeader();

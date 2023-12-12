@@ -1,6 +1,7 @@
 package com.launchPad.web.util;
 
 
+import com.launchPad.web.enums.EventType;
 import network.nerve.heterogeneous.core.HtgWalletApi;
 
 /**
@@ -13,24 +14,27 @@ import network.nerve.heterogeneous.core.HtgWalletApi;
 public class HtgWalletApiService {
     private static HtgWalletApi htgWalletApi;
 
-//    private static HtgWalletApi htgEnulsWalletApi;
+    private static HtgWalletApi htgEnulsWalletApi;
 //
 //    private static HtgWalletApi htgLineaWalletApi;
 
     public static synchronized  HtgWalletApi getHtgWalletApi(){
         if (htgWalletApi == null){
-            return  HtgWalletApi.getInstance("NULS", "ENULS Testnet", "https://beta.evmapi2.nuls.io");
-        }
+            return   HtgWalletApi.getInstance("ETH", "Base", "https://base-mainnet.public.blastapi.io");
+
+         }
         return htgWalletApi;
     }
 
 
-//    public static synchronized  HtgWalletApi getEnulsHtgWalletApi(){
-//        if (htgEnulsWalletApi == null){
-//            return  HtgWalletApi.getInstance(EventType.enusl_symbol, EventType.enuls_chainName, EventType.enuls_rpcAddress);
-//        }
-//        return htgEnulsWalletApi;
-//    }
+    public static synchronized  HtgWalletApi getEnulsHtgWalletApi(){
+        if (htgEnulsWalletApi == null){
+//              return  HtgWalletApi.getInstance("NULS", "ENULS Testnet", "https://beta.evmapi2.nuls.io");
+
+            return  HtgWalletApi.getInstance(EventType.enusl_symbol, EventType.enuls_chainName, EventType.enuls_rpcAddress);
+        }
+        return htgEnulsWalletApi;
+    }
 //
 //    public static synchronized  HtgWalletApi getLineaHtgWalletApi(){
 //        if (htgLineaWalletApi == null){

@@ -1,9 +1,9 @@
-package com.launchPad.web.service.impl;
+package com.launchPad.web.service.impl.enuls;
 
 import com.launchPad.common.utils.DateUtils;
-import com.launchPad.web.domain.TbBlockHeader;
-import com.launchPad.web.mapper.TbBlockHeaderMapper;
-import com.launchPad.web.service.ITbBlockHeaderService;
+import com.launchPad.web.domain.enuls.TbBlockHeaderEnuls;
+import com.launchPad.web.mapper.enuls.TbBlockHeaderEnulsMapper;
+import com.launchPad.web.service.enuls.ITbBlockHeaderEnulsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +18,9 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class TbBlockHeaderServiceImpl implements ITbBlockHeaderService {
+public class TbBlockHeaderEnulsServiceImpl implements ITbBlockHeaderEnulsService {
     @Autowired
-    private TbBlockHeaderMapper tbBlockHeaderMapper;
+    private TbBlockHeaderEnulsMapper tbBlockHeaderMapper;
 
     /**
      * 查询区块同步，主要获取之前同步记录
@@ -29,7 +29,7 @@ public class TbBlockHeaderServiceImpl implements ITbBlockHeaderService {
      * @return 区块同步，主要获取之前同步记录
      */
     @Override
-    public TbBlockHeader selectTbBlockHeaderByHeight(Long height) {
+    public TbBlockHeaderEnuls selectTbBlockHeaderByHeight(Long height) {
         return tbBlockHeaderMapper.selectTbBlockHeaderByHeight(height);
     }
 
@@ -40,7 +40,7 @@ public class TbBlockHeaderServiceImpl implements ITbBlockHeaderService {
      * @return 区块同步，主要获取之前同步记录
      */
     @Override
-    public List<TbBlockHeader> selectTbBlockHeaderList(TbBlockHeader tbBlockHeader) {
+    public List<TbBlockHeaderEnuls> selectTbBlockHeaderList(TbBlockHeaderEnuls tbBlockHeader) {
         return tbBlockHeaderMapper.selectTbBlockHeaderList(tbBlockHeader);
     }
 
@@ -55,7 +55,7 @@ public class TbBlockHeaderServiceImpl implements ITbBlockHeaderService {
      * @Date 2022/9/6
      */
     @Override
-    public TbBlockHeader selectLastBlockHeader() {
+    public TbBlockHeaderEnuls selectLastBlockHeader() {
         return tbBlockHeaderMapper.selectLastBlockHeader();
     }
 
@@ -67,7 +67,7 @@ public class TbBlockHeaderServiceImpl implements ITbBlockHeaderService {
      * @return 结果
      */
     @Override
-    public int insertTbBlockHeader(TbBlockHeader tbBlockHeader) {
+    public int insertTbBlockHeader(TbBlockHeaderEnuls tbBlockHeader) {
         tbBlockHeader.setCreateTime(DateUtils.getNowDate());
         return tbBlockHeaderMapper.insertTbBlockHeader(tbBlockHeader);
     }
@@ -79,7 +79,7 @@ public class TbBlockHeaderServiceImpl implements ITbBlockHeaderService {
      * @return 结果
      */
     @Override
-    public int updateTbBlockHeader(TbBlockHeader tbBlockHeader) {
+    public int updateTbBlockHeader(TbBlockHeaderEnuls tbBlockHeader) {
         return tbBlockHeaderMapper.updateTbBlockHeader(tbBlockHeader);
     }
 

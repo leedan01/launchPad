@@ -1,8 +1,9 @@
-package com.launchPad.web.mapper;
+package com.launchPad.web.mapper.enuls;
 
 
 
 import com.launchPad.web.domain.TbBlockHeader;
+import com.launchPad.web.domain.enuls.TbBlockHeaderEnuls;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author Unamano
  * @date 2022-09-02
  */
-public interface TbBlockHeaderMapper
+public interface TbBlockHeaderEnulsMapper
 {
     /**
      * 查询区块同步，主要获取之前同步记录
@@ -20,7 +21,7 @@ public interface TbBlockHeaderMapper
      * @param height 区块同步，主要获取之前同步记录主键
      * @return 区块同步，主要获取之前同步记录
      */
-    public TbBlockHeader selectTbBlockHeaderByHeight(Long height);
+    public TbBlockHeaderEnuls selectTbBlockHeaderByHeight(Long height);
 
     /**
      * 查询区块同步，主要获取之前同步记录列表
@@ -28,7 +29,7 @@ public interface TbBlockHeaderMapper
      * @param tbBlockHeader 区块同步，主要获取之前同步记录
      * @return 区块同步，主要获取之前同步记录集合
      */
-    public List<TbBlockHeader> selectTbBlockHeaderList(TbBlockHeader tbBlockHeader);
+    public List<TbBlockHeaderEnuls> selectTbBlockHeaderList(TbBlockHeaderEnuls tbBlockHeader);
 
     /**
      * 获取最新区块
@@ -40,7 +41,7 @@ public interface TbBlockHeaderMapper
      *@return io.unamano.web.domain.block.TbBlockHeaderEnuls
      *@throws
      */
-    public TbBlockHeader selectLastBlockHeader();
+    public TbBlockHeaderEnuls selectLastBlockHeader();
 
 
     /**
@@ -49,7 +50,7 @@ public interface TbBlockHeaderMapper
      * @param tbBlockHeader 区块同步，主要获取之前同步记录
      * @return 结果
      */
-    public int insertTbBlockHeader(TbBlockHeader tbBlockHeader);
+    public int insertTbBlockHeader(TbBlockHeaderEnuls tbBlockHeader);
 
     /**
      * 修改区块同步，主要获取之前同步记录
@@ -57,7 +58,7 @@ public interface TbBlockHeaderMapper
      * @param tbBlockHeader 区块同步，主要获取之前同步记录
      * @return 结果
      */
-    public int updateTbBlockHeader(TbBlockHeader tbBlockHeader);
+    public int updateTbBlockHeader(TbBlockHeaderEnuls tbBlockHeader);
 
     /**
      * 删除区块同步，主要获取之前同步记录

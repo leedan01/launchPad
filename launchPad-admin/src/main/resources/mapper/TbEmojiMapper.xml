@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.launchPad.web.mapper.emoji.TbEmojiMapper">
+
+    <resultMap type="TbEmoji" id="TbEmojiResult">
+        <result property="id"    column="id"    />
+        <result property="leftEmojiCodepoint"    column="left_emoji_codepoint"    />
+        <result property="rightEmojiCodepoint"    column="right_emoji_codepoint"    />
+    </resultMap>
+
+    <sql id="selectTbEmojiVo">
+        select id, left_emoji_codepoint, right_emoji_codepoint from tb_emoji
+    </sql>
+
+    <select id="selectTbEmojiList" parameterType="TbEmoji" resultMap="TbEmojiResult">
+        <include refid="selectTbEmojiVo"/>
+        <where>
+            <if test="leftEmojiCodepoint != null  and leftEmojiCodepoint != ''"> and left_emoji_codepoint = #{leftEmojiCodepoint}</if>
+            <if test="rightEmojiCodepoint != null  and rightEmojiCodepoint != ''"> and right_emoji_codepoint = #{rightEmojiCodepoint}</if>
+        </where>
+    </select>
+
+    <select id="selectTbEmojiById" parameterType="Long" resultMap="TbEmojiResult">
+        <include refid="selectTbEmojiVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTbEmoji" parameterType="TbEmoji" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_emoji
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="leftEmojiCodepoint != null">left_emoji_codepoint,</if>
+            <if test="rightEmojiCodepoint != null">right_emoji_codepoint,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="leftEmojiCodepoint != null">#{leftEmojiCodepoint},</if>
+            <if test="rightEmojiCodepoint != null">#{rightEmojiCodepoint},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbEmoji" parameterType="TbEmoji">
+        update tb_emoji
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="leftEmojiCodepoint != null">left_emoji_codepoint = #{leftEmojiCodepoint},</if>
+            <if test="rightEmojiCodepoint != null">right_emoji_codepoint = #{rightEmojiCodepoint},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbEmojiById" parameterType="Long">
+        delete from tb_emoji where id = #{id}
+    </delete>
+
+    <delete id="deleteTbEmojiByIds" parameterType="String">
+        delete from tb_emoji where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectByEmoji" parameterType="java.lang.String" resultMap="TbEmojiResult">
+        <include refid="selectTbEmojiVo"/>
+        where left_emoji_codepoint = #{codePoint}
+         or right_emoji_codepoint = #{codePoint}
+    </select>
+
+</mapper>

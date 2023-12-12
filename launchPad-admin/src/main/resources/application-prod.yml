@@ -1,9 +1,9 @@
 # 环境配置
 server:
-    # 服务器的HTTP端口
-    port: ${SERVER_PORT:8080}
+    # 服务器的HTTP端口，默认为8080
+    port: 8081
 # 项目相关配置
-launchPad:
+launchpad:
     # 名称
     name: launchPad
     # 版本
@@ -23,9 +23,10 @@ token:
     # 令牌自定义标识
     header: Authorization
     # 令牌密钥
-    secret: abcdefghijklmnopqrstuvwxyzunamano
+    secret: abcdefghijklmnopqrstuvwxyz
     # 令牌有效期（默认30分钟）
     expireTime: 30
+# 数据源配置
 # 数据源配置
 spring:
     datasource:
@@ -36,7 +37,7 @@ spring:
             master:
                 url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/launch_pad?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
-                password: ${MYSQL_ROOT_PASSWORD:123456ld}
+                password: ${MYSQL_ROOT_PASSWORD:123456}
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
@@ -52,6 +53,10 @@ spring:
             maxActive: 20
             # 配置获取连接等待超时的时间
             maxWait: 60000
+            # 配置连接超时时间
+            connectTimeout: 30000
+            # 配置网络超时时间
+            socketTimeout: 60000
             # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
             timeBetweenEvictionRunsMillis: 60000
             # 配置一个连接在池中最小生存的时间，单位是毫秒
@@ -86,9 +91,9 @@ spring:
     # redis 配置
     redis:
         # 地址
-        host: ${REDIS_HOST:localhost}
+        host: localhost
         # 端口，默认为6379
-        port: ${REDIS_PORT:6379}
+        port: 6379
         # 数据库索引
         database: 0
         # 密码
@@ -103,8 +108,14 @@ spring:
                 max-idle: 8
                 # 连接池的最大数据库连接数
                 max-active: 8
-                # #连接池最大阻塞等待时间（使用负值表示没有限制）
+                # #连接池最大阻塞000等待时间（使用负值表示没有限制）
                 max-wait: -1ms
 logging:
     config: classpath:logback-prod.xml
 
+address:
+    generateAddress: "0x2ff27970fcb0415cddd61d2325fd180c969dde18"
+    uniswapV2Locker: "0x9FdFAA0fF36Fc1D42ffb9EcddD9FBa4f2573F407"
+enulsaddress:
+    enulsGenerateAddress: "0x893f36a6fcb997c2d228113cc6185b3b441154bf"
+    enulsUniswapV2Locker: "0x9FdFAA0fF36Fc1D42ffb9EcddD9FBa4f2573F407"
