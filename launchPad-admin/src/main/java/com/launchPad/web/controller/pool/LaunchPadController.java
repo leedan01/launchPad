@@ -88,7 +88,7 @@ public class LaunchPadController extends BaseController
     }
 
 
-    @ApiOperation("获取我发布的项目列表")
+
     @GetMapping("/getByEmoji")
     public  List<TbEmoji>  getByEmoji(@Valid @NotBlank String codePoint)
     {
