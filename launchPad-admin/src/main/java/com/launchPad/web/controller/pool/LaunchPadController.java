@@ -37,7 +37,7 @@ import java.util.List;
  * @author leedan
  */
 @RestController
-@RequestMapping("/launch/pad")
+@RequestMapping("/linea/launch/pad")
 public class LaunchPadController extends BaseController
 {
 
